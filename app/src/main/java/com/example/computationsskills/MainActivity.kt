@@ -14,6 +14,10 @@ class MainActivity : AppCompatActivity() {
         var btnAbout = findViewById<Button>(R.id.about)
 
 
+        btnNewGame.setOnClickListener {
+            val gameActivityIntent = Intent(this,GameActivity::class.java)
+            startActivity(gameActivityIntent)
+        }
         btnAbout.setOnClickListener {
             val aboutActivityIntent = Intent(this, AboutActivity::class.java)
             startActivity(aboutActivityIntent)

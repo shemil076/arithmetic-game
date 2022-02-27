@@ -10,4 +10,9 @@
     <string name="txtIItNumber">--</string>
     <string name="txtName">--</string>
     <string name="txtMessage">I confirm that I understand what plagiarism is and have read and understood the section on Assessment Offences in the Essential Information for Students. The work that I have submitted is entirely my own. Any work from other authors is duly referenced and acknowledged. </string>
+    <string name="btnGreater">Greater</string>
+    <string name="btnEqual">==</string>
+    <string name="btnLess">less</string>
+    <string name="txtExpression2">--</string>
+    <string name="txtExpression1">--</string>
 </resources>
