@@ -2,4 +2,12 @@
     <string name="app_name">Computations skills</string>
     <string name="btnNewGame">New Game</string>
     <string name="BtnAbout">About</string>
+    <string name="studentId">Student Id </string>
+    <string name="iitNumber">IIT number </string>
+    <string name="name">Name </string>
+    <string name="lblAbout">ABOUT</string>
+    <string name="txtUowNumber">--</string>
+    <string name="txtIItNumber">--</string>
+    <string name="txtName">--</string>
+    <string name="txtMessage">I confirm that I understand what plagiarism is and have read and understood the section on Assessment Offences in the Essential Information for Students. The work that I have submitted is entirely my own. Any work from other authors is duly referenced and acknowledged. </string>
 </resources>
