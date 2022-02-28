@@ -36,4 +36,6 @@
             android:text="@string/BtnAbout"
             android:translationY="20sp" />
     </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
