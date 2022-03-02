@@ -52,14 +52,20 @@ class GameActivity : AppCompatActivity() {
 
         btnGreater.setOnClickListener {
             check(checkOptions[0],textResult)
+            runTheGame(showExpression1,1)
+            runTheGame(showExpression2,2)
         }
 
         btnEqual.setOnClickListener {
             check(checkOptions[1],textResult)
+            runTheGame(showExpression1,1)
+            runTheGame(showExpression2,2)
         }
 
         btnLesser.setOnClickListener {
             check(checkOptions[2],textResult)
+            runTheGame(showExpression1,1)
+            runTheGame(showExpression2,2)
         }
     }
 
