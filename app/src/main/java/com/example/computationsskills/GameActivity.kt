@@ -1,5 +1,7 @@
 package com.example.computationsskills
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +12,7 @@ import java.util.*
 class GameActivity : AppCompatActivity() {
 
     var operators = listOf("+", "-","*","/")
+    var checkOptions = listOf("greater", "equal", "less")
     var termCount1 : Int? = 0
     var termCount2 : Int? = 0
     var firstTerm1 : String? = null
@@ -18,6 +21,7 @@ class GameActivity : AppCompatActivity() {
     var valueOfExpression2: Int? = 0
     var expression1: String?=null
     var expression2: String?=null
+
 
 
 
@@ -31,6 +35,7 @@ class GameActivity : AppCompatActivity() {
         val btnLesser = findViewById<Button>(R.id.btnLess)
         val showExpression1 = findViewById<TextView>(R.id.txtExpression1)
         val showExpression2 = findViewById<TextView>(R.id.txtExpression2)
+        val textResult = findViewById<TextView>(R.id.txtResult)
 
 //        firstTerm1 = generateFirstNumber().toString()
 //        firstTerm2 = generateFirstNumber().toString()
@@ -46,44 +51,15 @@ class GameActivity : AppCompatActivity() {
         runTheGame(showExpression2,2)
 
         btnGreater.setOnClickListener {
-            runTheGame(showExpression1,1)
-            runTheGame(showExpression2,2)
-
-//            firstTerm1 = generateFirstNumber().toString()
-//            firstTerm2 = generateFirstNumber().toString()
-//            termCount1 = generateNumberOfTerms()
-//            termCount2 = generateNumberOfTerms()
-//            generateExpression(firstTerm1!!,showExpression1, termCount1!!, firstTerm1!!.toInt(),1)
-//            generateExpression(firstTerm2!!,showExpression2, termCount2!!, firstTerm2!!.toInt(),2)
-
+            check(checkOptions[0],textResult)
         }
 
         btnEqual.setOnClickListener {
-
-            runTheGame(showExpression1,1)
-            runTheGame(showExpression2,2)
-
-//            firstTerm1 = generateFirstNumber().toString()
-//            firstTerm2 = generateFirstNumber().toString()
-//            termCount1 = generateNumberOfTerms()
-//            termCount2 = generateNumberOfTerms()
-//            generateExpression(firstTerm1!!,showExpression1, termCount1!!, firstTerm1!!.toInt(),1)
-//            generateExpression(firstTerm2!!,showExpression2, termCount2!!, firstTerm2!!.toInt(),2)
-
+            check(checkOptions[1],textResult)
         }
 
         btnLesser.setOnClickListener {
-
-            runTheGame(showExpression1,1)
-            runTheGame(showExpression2,2)
-
-//            firstTerm1 = generateFirstNumber().toString()
-//            firstTerm2 = generateFirstNumber().toString()
-//            termCount1 = generateNumberOfTerms()
-//            termCount2 = generateNumberOfTerms()
-//            generateExpression(firstTerm1!!,showExpression1, termCount1!!, firstTerm1!!.toInt(),1)
-//            generateExpression(firstTerm2!!,showExpression2, termCount2!!, firstTerm2!!.toInt(),2)
-
+            check(checkOptions[2],textResult)
         }
     }
 
@@ -163,6 +139,42 @@ class GameActivity : AppCompatActivity() {
         }
 
     }
+
+    @SuppressLint("SetTextI18n")
+    fun check(checkOption: String, txtResult :TextView){
+        when (checkOption) {
+            "greater" -> {
+                if (valueOfExpression1!! > valueOfExpression2!!){
+                    txtResult.text = "CORRECT!"
+                    txtResult.setTextColor(Color.GREEN)
+                }else{
+                    txtResult.text = "WRONG!!"
+                    txtResult.setTextColor(Color.RED)
+                }
+            }
+            "equal" -> {
+                if (valueOfExpression1!! == valueOfExpression2!!){
+                    txtResult.text = "CORRECT!"
+                    txtResult.setTextColor(Color.GREEN)
+                }else{
+                    txtResult.text = "WRONG!!"
+                    txtResult.setTextColor(Color.RED)
+                }
+            }
+            "less" -> {
+                if (valueOfExpression1!! < valueOfExpression2!!){
+                    txtResult.text = "CORRECT!"
+                    txtResult.setTextColor(Color.GREEN)
+                }else{
+                    txtResult.text = "WRONG!!"
+                    txtResult.setTextColor(Color.RED)
+                }
+            }
+        }
+    }
+
+
+
 
 
     fun randomUpToFour(): Int {
