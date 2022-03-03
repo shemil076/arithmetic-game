@@ -3,9 +3,8 @@
     <item>
         <shape tools:ignore="ExtraText">
             <gradient
-                android:startColor = "#2980B9"
-                android:centerColor="#6DD5FA"
-                android:endColor="#FFFFFF"
+                android:startColor = "#8E2DE2"
+                android:endColor="#4A00E0"
                 android:angle="270"
                 android:type="linear"
                 />

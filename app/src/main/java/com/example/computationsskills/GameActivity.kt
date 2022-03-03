@@ -1,6 +1,7 @@
 package com.example.computationsskills
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog.show
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -25,6 +26,9 @@ class GameActivity : AppCompatActivity() {
     var expression1: String?=null
     var expression2: String?=null
     var timerStartValue = 50000
+    var correctCount : Int = 0
+    var inCorrectCount : Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +42,8 @@ class GameActivity : AppCompatActivity() {
         val textResult = findViewById<TextView>(R.id.txtResult)
         val timer = findViewById<TextView>(R.id.timer)
         val scoreboard = findViewById<LinearLayout>(R.id.scoreboard)
+        val showCorrect = findViewById<TextView>(R.id.correct)
+        val showIncorrect = findViewById<TextView>(R.id.incorrect)
 
 //        firstTerm1 = generateFirstNumber().toString()
 //        firstTerm2 = generateFirstNumber().toString()
@@ -94,6 +100,10 @@ class GameActivity : AppCompatActivity() {
                 timer.setTextColor(Color.YELLOW)
                 timer.text = "Game-Over!"
                 timer.textSize = 30F
+
+                showCorrect.text = "Correct count = $correctCount"
+                showIncorrect.text = "Incorrect count = $inCorrectCount"
+
                 btnGreater.visibility = View.GONE
                 btnEqual.visibility = View.GONE
                 btnLesser.visibility = View.GONE
@@ -101,6 +111,7 @@ class GameActivity : AppCompatActivity() {
                 showExpression2.visibility = View.GONE
                 textResult.visibility = View.GONE
                 scoreboard.visibility = View.VISIBLE
+
 
             }
         }.start()
@@ -216,27 +227,33 @@ class GameActivity : AppCompatActivity() {
             "greater" -> {
                 if (valueOfExpression1!! > valueOfExpression2!!){
                     txtResult.text = "CORRECT!"
+                    correctCount +=1
                     txtResult.setTextColor(Color.GREEN)
                 }else{
                     txtResult.text = "WRONG!!"
+                    inCorrectCount += 1
                     txtResult.setTextColor(Color.RED)
                 }
             }
             "equal" -> {
                 if (valueOfExpression1!! == valueOfExpression2!!){
                     txtResult.text = "CORRECT!"
+                    correctCount +=1
                     txtResult.setTextColor(Color.GREEN)
                 }else{
                     txtResult.text = "WRONG!!"
+                    inCorrectCount += 1
                     txtResult.setTextColor(Color.RED)
                 }
             }
             "less" -> {
                 if (valueOfExpression1!! < valueOfExpression2!!){
                     txtResult.text = "CORRECT!"
+                    correctCount +=1
                     txtResult.setTextColor(Color.GREEN)
                 }else{
                     txtResult.text = "WRONG!!"
+                    inCorrectCount += 1
                     txtResult.setTextColor(Color.RED)
                 }
             }
