@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import java.util.*
 
@@ -36,6 +37,7 @@ class GameActivity : AppCompatActivity() {
         val showExpression2 = findViewById<TextView>(R.id.txtExpression2)
         val textResult = findViewById<TextView>(R.id.txtResult)
         val timer = findViewById<TextView>(R.id.timer)
+        val scoreboard = findViewById<LinearLayout>(R.id.scoreboard)
 
 //        firstTerm1 = generateFirstNumber().toString()
 //        firstTerm2 = generateFirstNumber().toString()
@@ -46,7 +48,7 @@ class GameActivity : AppCompatActivity() {
 //        generateExpression(firstTerm2!!,showExpression2, termCount2!!, firstTerm2!!.toInt(),2)
 //        values()
 
-
+        scoreboard.visibility = View.GONE
         runTheGame(showExpression1,1)
         runTheGame(showExpression2,2)
 
@@ -78,21 +80,27 @@ class GameActivity : AppCompatActivity() {
                     timer.setTextColor(Color.GREEN)
                 }else if (sec > 10){
                     timer.setTextColor(Color.YELLOW)
+                    timer.textSize = 20F
                 } else{
                     timer.setTextColor(Color.RED)
+                    timer.textSize = 21F
                 }
 
-                timer.text = "$min : $sec"
+                timer.text = "Seconds remaining\n$min : $sec"
             }
 
             @SuppressLint("SetTextI18n")
             override fun onFinish() {
-                timer.text = "done!"
+                timer.setTextColor(Color.YELLOW)
+                timer.text = "Game-Over!"
+                timer.textSize = 30F
                 btnGreater.visibility = View.GONE
                 btnEqual.visibility = View.GONE
                 btnLesser.visibility = View.GONE
                 showExpression1.visibility = View.GONE
                 showExpression2.visibility = View.GONE
+                textResult.visibility = View.GONE
+                scoreboard.visibility = View.VISIBLE
 
             }
         }.start()
