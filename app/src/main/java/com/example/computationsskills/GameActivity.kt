@@ -22,10 +22,6 @@ class GameActivity : AppCompatActivity() {
     var expression1: String?=null
     var expression2: String?=null
 
-
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
@@ -70,7 +66,6 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun runTheGame(showExpression:TextView, expressionNumber: Int) {
-
         when(expressionNumber) {
             1 -> {
                 firstTerm1 = generateFirstNumber().toString()
@@ -85,7 +80,6 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-
     fun generateFirstNumber(): Int {
         return randomOneToTwenty()
     }
@@ -93,6 +87,7 @@ class GameActivity : AppCompatActivity() {
     fun generateNumberOfTerms(): Int {
         return randomOneToThree()
     }
+
     fun generateExpression(firstTerm1:String,showExpression:TextView,termCount1:Int, final :Int, expressionNumber : Int) {
         var finalValue = final
         var termCount = termCount1
@@ -100,24 +95,38 @@ class GameActivity : AppCompatActivity() {
         var expressionNo = expressionNumber
         var expressions: String? = null
         var secondTerm: Int
-        
+
         while (true) {
             secondTerm = randomOneToTwenty()
-//            break
             when (operator) {
                 0 -> {
-                    finalValue += secondTerm
-                    break
+                    if((finalValue + secondTerm) <= 100){
+                        finalValue += secondTerm
+                        break
+                    }else{
+                        continue
+                    }
+
                 }
                 1 -> {
-                    finalValue -= secondTerm
-                    break                }
-                2 -> {
-                    finalValue *= secondTerm
-                    break
+                    if((finalValue - secondTerm) <= 100){
+                        finalValue -= secondTerm
+                        break
+                    }else{
+                        continue
+                    }
+
                 }
-                else -> {
-                    if (finalValue % secondTerm == 0){
+                2 -> {
+                    if((finalValue * secondTerm) <= 100){
+                        finalValue *= secondTerm
+                        break
+                    }else{
+                        continue
+                    }
+                }
+                3 -> {
+                    if ((finalValue % secondTerm == 0) && ((finalValue / secondTerm) <= 100)){
                         finalValue /= secondTerm
                         break
                     }else{
@@ -127,7 +136,6 @@ class GameActivity : AppCompatActivity() {
                 }
             }
         }
-
         when (expressionNo){
             1 -> {
                 expression1 = firstTerm1 + operators[operator] + secondTerm
@@ -139,10 +147,7 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        Log.d("expo 1 ", "$expression1")
-        Log.d("expo 2 ", "$expression2")
-
-
+        
         termCount -= 1
 
         if (termCount > 0){
@@ -155,6 +160,10 @@ class GameActivity : AppCompatActivity() {
             }
             showExpression.text = expressions
         }
+
+
+        Log.d("expo 1 ", "$expression1 = $valueOfExpression1" )
+        Log.d("expo 2 ", "$expression2 = $valueOfExpression2")
 
     }
 
