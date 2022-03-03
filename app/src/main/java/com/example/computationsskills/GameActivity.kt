@@ -81,7 +81,12 @@ class GameActivity : AppCompatActivity() {
             @SuppressLint("SetTextI18n")
             override fun onTick(millisUntilFinished: Long) {
                 val min = (timerStartValue / 1000) / 60
-                val sec = millisUntilFinished / 1000
+                var sec = millisUntilFinished / 1000
+
+                if(correctCount % 5 == 0){
+                    sec += 10
+                }
+
                 if (sec > 30){
                     timer.setTextColor(Color.GREEN)
                 }else if (sec > 10){
