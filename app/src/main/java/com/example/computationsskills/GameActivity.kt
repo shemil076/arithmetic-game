@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import java.util.*
@@ -21,6 +23,7 @@ class GameActivity : AppCompatActivity() {
     var valueOfExpression2: Int? = 0
     var expression1: String?=null
     var expression2: String?=null
+    var timerStartValue = 50000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +35,7 @@ class GameActivity : AppCompatActivity() {
         val showExpression1 = findViewById<TextView>(R.id.txtExpression1)
         val showExpression2 = findViewById<TextView>(R.id.txtExpression2)
         val textResult = findViewById<TextView>(R.id.txtResult)
+        val timer = findViewById<TextView>(R.id.timer)
 
 //        firstTerm1 = generateFirstNumber().toString()
 //        firstTerm2 = generateFirstNumber().toString()
@@ -63,6 +67,37 @@ class GameActivity : AppCompatActivity() {
             runTheGame(showExpression1,1)
             runTheGame(showExpression2,2)
         }
+
+        object : CountDownTimer(timerStartValue.toLong(), 1000) {
+
+            @SuppressLint("SetTextI18n")
+            override fun onTick(millisUntilFinished: Long) {
+                val min = (timerStartValue / 1000) / 60
+                val sec = millisUntilFinished / 1000
+                if (sec > 30){
+                    timer.setTextColor(Color.GREEN)
+                }else if (sec > 10){
+                    timer.setTextColor(Color.YELLOW)
+                } else{
+                    timer.setTextColor(Color.RED)
+                }
+
+                timer.text = "$min : $sec"
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onFinish() {
+                timer.text = "done!"
+                btnGreater.visibility = View.GONE
+                btnEqual.visibility = View.GONE
+                btnLesser.visibility = View.GONE
+                showExpression1.visibility = View.GONE
+                showExpression2.visibility = View.GONE
+
+            }
+        }.start()
+
+
     }
 
     fun runTheGame(showExpression:TextView, expressionNumber: Int) {
@@ -147,7 +182,7 @@ class GameActivity : AppCompatActivity() {
             }
         }
 
-        
+
         termCount -= 1
 
         if (termCount > 0){

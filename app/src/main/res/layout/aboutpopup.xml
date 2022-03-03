@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="350sp"
     android:layout_height="450sp"
-    android:background="@color/blueDark"
+    android:background= "@drawable/gredient_ackground3"
     android:layout_gravity="center">
 
 <!--    <TextView-->
