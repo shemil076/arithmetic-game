@@ -97,22 +97,34 @@ class GameActivity : AppCompatActivity() {
         var finalValue = final
         var termCount = termCount1
         var operator = randomUpToFour()
-        var secondTerm = randomOneToTwenty()
         var expressionNo = expressionNumber
         var expressions: String? = null
+        var secondTerm: Int
+        
+        while (true) {
+            secondTerm = randomOneToTwenty()
+//            break
+            when (operator) {
+                0 -> {
+                    finalValue += secondTerm
+                    break
+                }
+                1 -> {
+                    finalValue -= secondTerm
+                    break                }
+                2 -> {
+                    finalValue *= secondTerm
+                    break
+                }
+                else -> {
+                    if (finalValue % secondTerm == 0){
+                        finalValue /= secondTerm
+                        break
+                    }else{
+                        continue
+                    }
 
-        when (operator) {
-            0 -> {
-                finalValue += secondTerm
-            }
-            1 -> {
-                finalValue -= secondTerm
-            }
-            2 -> {
-                finalValue *= secondTerm
-            }
-            else -> {
-                finalValue /= secondTerm
+                }
             }
         }
 
