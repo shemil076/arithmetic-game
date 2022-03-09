@@ -25,10 +25,11 @@ class GameActivity : AppCompatActivity() {
     var valueOfExpression2: Int? = 0
     var expression1: String?=null
     var expression2: String?=null
-    var timerStartValue = 50000
+    var timerStartValue = 5000000000
     var correctCount : Int = 0
     var inCorrectCount : Int = 0
-
+    var timerCorrectCount : Int = 0
+    var seconds = 50
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class GameActivity : AppCompatActivity() {
         val showExpression1 = findViewById<TextView>(R.id.txtExpression1)
         val showExpression2 = findViewById<TextView>(R.id.txtExpression2)
         val textResult = findViewById<TextView>(R.id.txtResult)
-        val timer = findViewById<TextView>(R.id.timer)
+
         val scoreboard = findViewById<LinearLayout>(R.id.scoreboard)
         val showCorrect = findViewById<TextView>(R.id.correct)
         val showIncorrect = findViewById<TextView>(R.id.incorrect)
@@ -57,6 +58,7 @@ class GameActivity : AppCompatActivity() {
         scoreboard.visibility = View.GONE
         runTheGame(showExpression1,1)
         runTheGame(showExpression2,2)
+        timerStart(showCorrect,showIncorrect, btnGreater ,btnEqual ,btnLesser  , showExpression1 ,showExpression2 ,textResult ,scoreboard )
 
         btnGreater.setOnClickListener {
             check(checkOptions[0],textResult)
@@ -75,53 +77,6 @@ class GameActivity : AppCompatActivity() {
             runTheGame(showExpression1,1)
             runTheGame(showExpression2,2)
         }
-
-        object : CountDownTimer(timerStartValue.toLong(), 1000) {
-
-            @SuppressLint("SetTextI18n")
-            override fun onTick(millisUntilFinished: Long) {
-                val min = (timerStartValue / 1000) / 60
-                var sec = millisUntilFinished / 1000
-
-                if(correctCount % 5 == 0){
-                    sec += 10
-                }
-
-                if (sec > 30){
-                    timer.setTextColor(Color.GREEN)
-                }else if (sec > 10){
-                    timer.setTextColor(Color.YELLOW)
-                    timer.textSize = 20F
-                } else{
-                    timer.setTextColor(Color.RED)
-                    timer.textSize = 21F
-                }
-
-                timer.text = "Seconds remaining\n$min : $sec"
-            }
-
-            @SuppressLint("SetTextI18n")
-            override fun onFinish() {
-                timer.setTextColor(Color.YELLOW)
-                timer.text = "Game-Over!"
-                timer.textSize = 30F
-
-                showCorrect.text = "Correct count = $correctCount"
-                showIncorrect.text = "Incorrect count = $inCorrectCount"
-
-                btnGreater.visibility = View.GONE
-                btnEqual.visibility = View.GONE
-                btnLesser.visibility = View.GONE
-                showExpression1.visibility = View.GONE
-                showExpression2.visibility = View.GONE
-                textResult.visibility = View.GONE
-                scoreboard.visibility = View.VISIBLE
-
-
-            }
-        }.start()
-
-
     }
 
     fun runTheGame(showExpression:TextView, expressionNumber: Int) {
@@ -233,6 +188,7 @@ class GameActivity : AppCompatActivity() {
                 if (valueOfExpression1!! > valueOfExpression2!!){
                     txtResult.text = "CORRECT!"
                     correctCount +=1
+                    timerCorrectCount += 1
                     txtResult.setTextColor(Color.GREEN)
                 }else{
                     txtResult.text = "WRONG!!"
@@ -244,6 +200,7 @@ class GameActivity : AppCompatActivity() {
                 if (valueOfExpression1!! == valueOfExpression2!!){
                     txtResult.text = "CORRECT!"
                     correctCount +=1
+                    timerCorrectCount += 1
                     txtResult.setTextColor(Color.GREEN)
                 }else{
                     txtResult.text = "WRONG!!"
@@ -255,6 +212,7 @@ class GameActivity : AppCompatActivity() {
                 if (valueOfExpression1!! < valueOfExpression2!!){
                     txtResult.text = "CORRECT!"
                     correctCount +=1
+                    timerCorrectCount += 1
                     txtResult.setTextColor(Color.GREEN)
                 }else{
                     txtResult.text = "WRONG!!"
@@ -265,8 +223,58 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    private fun timerStart(showCorrect:TextView, showIncorrect: TextView, btnGreater :Button, btnEqual : Button, btnLesser : Button, showExpression1 :TextView, showExpression2 :TextView, textResult :TextView, scoreboard :LinearLayout){
+        val timer = findViewById<TextView>(R.id.timer)
+        object : CountDownTimer(timerStartValue.toLong(), 1000) {
+
+            @SuppressLint("SetTextI18n")
+            override fun onTick(millisUntilFinished: Long) {
+
+                if(timerCorrectCount == 2) { // reminder : change 2 to 5 -> 2 is used in debug purpose
+                    timerCorrectCount = 0
+                    seconds += 10
+                }
+
+                if (seconds > 30){
+                    timer.setTextColor(Color.GREEN)
+                }else if (seconds > 10){
+                    timer.setTextColor(Color.YELLOW)
+                    timer.textSize = 20F
+                } else{
+                    timer.setTextColor(Color.RED)
+                    timer.textSize = 21F
+                }
+
+                timer.text = "Seconds remaining\n0 : $seconds"
+
+                if (seconds == 0){
+                    cancel()
+                    onFinish()
+                }
+                seconds --
+            }
 
 
+            @SuppressLint("SetTextI18n")
+            override fun onFinish() {
+                timer.setTextColor(Color.YELLOW)
+                timer.text = "Game-Over!"
+                timer.textSize = 30F
+
+                showCorrect.text = "Correct count = $correctCount"
+                showIncorrect.text = "Incorrect count = $inCorrectCount"
+
+                btnGreater.visibility = View.GONE
+                btnEqual.visibility = View.GONE
+                btnLesser.visibility = View.GONE
+                showExpression1.visibility = View.GONE
+                showExpression2.visibility = View.GONE
+                textResult.visibility = View.GONE
+                scoreboard.visibility = View.VISIBLE
+
+            }
+        }.start()
+    }
 
 
     fun randomUpToFour(): Int {
