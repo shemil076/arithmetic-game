@@ -53,13 +53,13 @@ class GameActivity : AppCompatActivity() {
          showExpression2 = findViewById<TextView>(R.id.txtExpression2)
         val textResult = findViewById<TextView>(R.id.txtResult)
 
-        val scoreboard = findViewById<LinearLayout>(R.id.scoreboard)
+
 
 //        val showCorrect = findViewById<TextView>(R.id.correct)
 //        val showIncorrect = findViewById<TextView>(R.id.incorrect)
 
 //showCorrect,showIncorrect, btnGreater ,btnEqual ,btnLesser  , showExpression1 ,showExpression2 ,textResult ,scoreboard
-        scoreboard.visibility = View.GONE
+
         runTheGame(showExpression1,1)
         runTheGame(showExpression2,2)
         timerStart()

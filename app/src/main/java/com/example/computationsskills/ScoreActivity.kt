@@ -29,7 +29,7 @@ class ScoreActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        val backToMain = Intent(this, MainActivity::class.java)
+        val backToMain = Intent(this, HomeActivity::class.java)
         startActivity(backToMain)
     }
 }
