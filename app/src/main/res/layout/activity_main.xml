@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background= "@drawable/gredient_ackground2">
+    android:background="@drawable/gredient_ackground2"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -14,11 +14,11 @@
         android:layout_marginStart="47dp"
         android:layout_marginEnd="47dp"
         android:layout_marginBottom="251dp"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center">
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <Button
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/btnNewGame"
-
+            android:background="@drawable/homebuttons"
             tools:ignore="DuplicateSpeakableTextCheck" />
 
         <Button
@@ -35,8 +35,58 @@
             android:layout_width="115dp"
             android:layout_height="wrap_content"
             android:text="@string/BtnAbout"
+            android:background="@drawable/homebuttons"
             android:translationY="20sp" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:rotation="29"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.822"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/thinkmath" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="127dp"
+        android:layout_height="131dp"
+        android:layout_marginBottom="52dp"
+        android:rotation="-54"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.135"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/calculator" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="104dp"
+        android:rotation="-33"
+        android:rotationX="-8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/pi" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="136dp"
+        android:rotation="-42"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.135"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/brain" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

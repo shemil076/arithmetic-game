@@ -22,7 +22,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(gameActivityIntent)
         }
 
-
         btnAbout.setOnClickListener{
             val window = PopupWindow(this)
             window.isFocusable
@@ -33,10 +32,6 @@ class MainActivity : AppCompatActivity() {
                 window.dismiss()
             }
         }
-
-
-
-
 
     }
 }

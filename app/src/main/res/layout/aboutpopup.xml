@@ -6,17 +6,7 @@
     android:background= "@drawable/gredient_ackground3"
     android:layout_gravity="center">
 
-<!--    <TextView-->
-<!--        android:layout_width="30dp"-->
-<!--        android:layout_height="30dp"-->
-<!--        android:background="@drawable/circlebackground"-->
-<!--        android:gravity="center"-->
-<!--        android:text="@string/popupclose"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textStyle="bold"-->
-<!--        tools:ignore="MissingConstraints"-->
-<!--        tools:layout_editor_absoluteX="318dp"-->
-<!--        tools:layout_editor_absoluteY="-1dp" />-->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -2,6 +2,8 @@ package com.example.computationsskills
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog.show
+import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,9 +13,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import java.util.*
 
 class GameActivity : AppCompatActivity() {
+
+    lateinit var preference : SharedPreferences
 
     var operators = listOf("+", "-","*","/")
     var checkOptions = listOf("greater", "equal", "less")
@@ -21,8 +26,8 @@ class GameActivity : AppCompatActivity() {
     var termCount2 : Int? = 0
     var firstTerm1 : String? = null
     var firstTerm2 : String? = null
-    var valueOfExpression1: Int? = 0
-    var valueOfExpression2: Int? = 0
+    var valueOfExpression1: Int = 0
+    var valueOfExpression2: Int = 0
     var expression1: String?=null
     var expression2: String?=null
     var timerStartValue = 5000000000
@@ -30,6 +35,7 @@ class GameActivity : AppCompatActivity() {
     var inCorrectCount : Int = 0
     var timerCorrectCount : Int = 0
     var seconds = 50
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,22 +49,15 @@ class GameActivity : AppCompatActivity() {
         val textResult = findViewById<TextView>(R.id.txtResult)
 
         val scoreboard = findViewById<LinearLayout>(R.id.scoreboard)
-        val showCorrect = findViewById<TextView>(R.id.correct)
-        val showIncorrect = findViewById<TextView>(R.id.incorrect)
 
-//        firstTerm1 = generateFirstNumber().toString()
-//        firstTerm2 = generateFirstNumber().toString()
-//        termCount1 = generateNumberOfTerms()
-//        termCount2 = generateNumberOfTerms()
-//
-//        generateExpression(firstTerm1!!,showExpression1, termCount1!!, firstTerm1!!.toInt(),1)
-//        generateExpression(firstTerm2!!,showExpression2, termCount2!!, firstTerm2!!.toInt(),2)
-//        values()
+//        val showCorrect = findViewById<TextView>(R.id.correct)
+//        val showIncorrect = findViewById<TextView>(R.id.incorrect)
 
+//showCorrect,showIncorrect, btnGreater ,btnEqual ,btnLesser  , showExpression1 ,showExpression2 ,textResult ,scoreboard
         scoreboard.visibility = View.GONE
         runTheGame(showExpression1,1)
         runTheGame(showExpression2,2)
-        timerStart(showCorrect,showIncorrect, btnGreater ,btnEqual ,btnLesser  , showExpression1 ,showExpression2 ,textResult ,scoreboard )
+        timerStart()
 
         btnGreater.setOnClickListener {
             check(checkOptions[0],textResult)
@@ -79,6 +78,36 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSaveInstanceState(outState : Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("correct",correctCount)
+        outState.putInt("incorrect",inCorrectCount)
+        outState.putInt("timerCorrectCount",timerCorrectCount)
+        outState.putInt("seconds",seconds)
+
+//        outState.putInt("value1",valueOfExpression1)
+//        outState.putInt("value2",valueOfExpression2)
+//        outState.putString("expression1",expression1)
+
+//        outState.putString("expression2",expression2)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        correctCount = savedInstanceState.getInt("correct",0)
+        inCorrectCount = savedInstanceState.getInt("incorrect",0)
+        timerCorrectCount = savedInstanceState.getInt("timerCorrectCount",0)
+        seconds = savedInstanceState.getInt("seconds", 50)
+
+//        valueOfExpression1 = savedInstanceState.getInt("value1", 0)
+//        valueOfExpression2 = savedInstanceState.getInt("value2", 0)
+//        expression1 = savedInstanceState.getString("expression1", null)
+//        expression2 = savedInstanceState.getString("expression2", null)
+
+
+    }
+
+
     fun runTheGame(showExpression:TextView, expressionNumber: Int) {
         when(expressionNumber) {
             1 -> {
@@ -93,6 +122,7 @@ class GameActivity : AppCompatActivity() {
             }
         }
     }
+
 
     fun generateFirstNumber(): Int {
         return randomOneToTwenty()
@@ -146,7 +176,6 @@ class GameActivity : AppCompatActivity() {
                     }else{
                         continue
                     }
-
                 }
             }
         }
@@ -223,7 +252,8 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun timerStart(showCorrect:TextView, showIncorrect: TextView, btnGreater :Button, btnEqual : Button, btnLesser : Button, showExpression1 :TextView, showExpression2 :TextView, textResult :TextView, scoreboard :LinearLayout){
+//showCorrect:TextView, showIncorrect: TextView, btnGreater :Button, btnEqual : Button, btnLesser : Button, showExpression1 :TextView, showExpression2 :TextView, textResult :TextView, scoreboard :LinearLayout
+    private fun timerStart(){
         val timer = findViewById<TextView>(R.id.timer)
         object : CountDownTimer(timerStartValue.toLong(), 1000) {
 
@@ -260,21 +290,30 @@ class GameActivity : AppCompatActivity() {
                 timer.setTextColor(Color.YELLOW)
                 timer.text = "Game-Over!"
                 timer.textSize = 30F
+                showScore()
 
-                showCorrect.text = "Correct count = $correctCount"
-                showIncorrect.text = "Incorrect count = $inCorrectCount"
+//                showCorrect.text = "Correct count = $correctCount"
+//                showIncorrect.text = "Incorrect count = $inCorrectCount"
 
-                btnGreater.visibility = View.GONE
-                btnEqual.visibility = View.GONE
-                btnLesser.visibility = View.GONE
-                showExpression1.visibility = View.GONE
-                showExpression2.visibility = View.GONE
-                textResult.visibility = View.GONE
-                scoreboard.visibility = View.VISIBLE
+//                btnGreater.visibility = View.GONE
+//                btnEqual.visibility = View.GONE
+//                btnLesser.visibility = View.GONE
+//                showExpression1.visibility = View.GONE
+//                showExpression2.visibility = View.GONE
+//                textResult.visibility = View.GONE
+//                scoreboard.visibility = View.VISIBLE
 
             }
         }.start()
     }
+
+     fun showScore(){
+         var scoreActivityIntent = Intent(this,ScoreActivity::class.java)
+         scoreActivityIntent.putExtra("correct",correctCount)
+         scoreActivityIntent.putExtra("incorrect",inCorrectCount)
+         Toast.makeText(this, "Moving on...", Toast.LENGTH_SHORT).show()
+         startActivity(scoreActivityIntent)
+     }
 
 
     fun randomUpToFour(): Int {

@@ -10,9 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ComputationsSkills">
         <activity
+            android:name=".ScoreActivity"
+            android:exported="false" />
+        <activity
             android:name=".GameActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
