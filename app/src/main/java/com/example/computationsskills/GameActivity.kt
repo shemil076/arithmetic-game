@@ -37,6 +37,11 @@ class GameActivity : AppCompatActivity() {
     var seconds = 50
 
 
+    lateinit var showExpression1 : TextView
+    lateinit var showExpression2 : TextView
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
@@ -44,8 +49,8 @@ class GameActivity : AppCompatActivity() {
         val btnGreater = findViewById<Button>(R.id.btnGreatrer)
         val btnEqual = findViewById<Button>(R.id.btnEqual)
         val btnLesser = findViewById<Button>(R.id.btnLess)
-        val showExpression1 = findViewById<TextView>(R.id.txtExpression1)
-        val showExpression2 = findViewById<TextView>(R.id.txtExpression2)
+         showExpression1 = findViewById<TextView>(R.id.txtExpression1)
+         showExpression2 = findViewById<TextView>(R.id.txtExpression2)
         val textResult = findViewById<TextView>(R.id.txtResult)
 
         val scoreboard = findViewById<LinearLayout>(R.id.scoreboard)
@@ -85,11 +90,13 @@ class GameActivity : AppCompatActivity() {
         outState.putInt("timerCorrectCount",timerCorrectCount)
         outState.putInt("seconds",seconds)
 
-//        outState.putInt("value1",valueOfExpression1)
-//        outState.putInt("value2",valueOfExpression2)
-//        outState.putString("expression1",expression1)
 
-//        outState.putString("expression2",expression2)
+
+        outState.putInt("value1",valueOfExpression1)
+        outState.putInt("value2",valueOfExpression2)
+        outState.putString("expression1",expression1)
+
+        outState.putString("expression2",expression2)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
@@ -99,11 +106,13 @@ class GameActivity : AppCompatActivity() {
         timerCorrectCount = savedInstanceState.getInt("timerCorrectCount",0)
         seconds = savedInstanceState.getInt("seconds", 50)
 
-//        valueOfExpression1 = savedInstanceState.getInt("value1", 0)
-//        valueOfExpression2 = savedInstanceState.getInt("value2", 0)
-//        expression1 = savedInstanceState.getString("expression1", null)
-//        expression2 = savedInstanceState.getString("expression2", null)
+        valueOfExpression1 = savedInstanceState.getInt("value1", 0)
+        valueOfExpression2 = savedInstanceState.getInt("value2", 0)
+        expression1 = savedInstanceState.getString("expression1", null)
+        expression2 = savedInstanceState.getString("expression2", null)
 
+        showExpression1.text= expression1
+        showExpression2.text= expression2
 
     }
 
@@ -214,7 +223,7 @@ class GameActivity : AppCompatActivity() {
     fun check(checkOption: String, txtResult :TextView){
         when (checkOption) {
             "greater" -> {
-                if (valueOfExpression1!! > valueOfExpression2!!){
+                if (valueOfExpression1 > valueOfExpression2){
                     txtResult.text = "CORRECT!"
                     correctCount +=1
                     timerCorrectCount += 1
@@ -226,7 +235,7 @@ class GameActivity : AppCompatActivity() {
                 }
             }
             "equal" -> {
-                if (valueOfExpression1!! == valueOfExpression2!!){
+                if (valueOfExpression1 == valueOfExpression2){
                     txtResult.text = "CORRECT!"
                     correctCount +=1
                     timerCorrectCount += 1
@@ -238,7 +247,7 @@ class GameActivity : AppCompatActivity() {
                 }
             }
             "less" -> {
-                if (valueOfExpression1!! < valueOfExpression2!!){
+                if (valueOfExpression1 < valueOfExpression2){
                     txtResult.text = "CORRECT!"
                     correctCount +=1
                     timerCorrectCount += 1
@@ -291,18 +300,6 @@ class GameActivity : AppCompatActivity() {
                 timer.text = "Game-Over!"
                 timer.textSize = 30F
                 showScore()
-
-//                showCorrect.text = "Correct count = $correctCount"
-//                showIncorrect.text = "Incorrect count = $inCorrectCount"
-
-//                btnGreater.visibility = View.GONE
-//                btnEqual.visibility = View.GONE
-//                btnLesser.visibility = View.GONE
-//                showExpression1.visibility = View.GONE
-//                showExpression2.visibility = View.GONE
-//                textResult.visibility = View.GONE
-//                scoreboard.visibility = View.VISIBLE
-
             }
         }.start()
     }
