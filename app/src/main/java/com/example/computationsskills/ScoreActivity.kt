@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 
+
+
 class ScoreActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,15 +23,14 @@ class ScoreActivity : AppCompatActivity() {
 
 
         showCorrect.text = "Number of correct selections: $correctCount"
+        showIncorrect.text = "Number of incorrect selections: $incorrectCount"
+
         showCorrect.setTextColor(Color.GREEN)
-
-        showIncorrect.text = "Number of correct selections: $incorrectCount"
         showIncorrect.setTextColor(Color.RED)
-
     }
-
-    override fun onBackPressed() {
-        val backToMain = Intent(this, HomeActivity::class.java)
-        startActivity(backToMain)
-    }
+//
+//    override fun onBackPressed() {
+//        val backToMain = Intent(this, MainActivity::class.java)
+//        startActivity(backToMain)
+//    }
 }

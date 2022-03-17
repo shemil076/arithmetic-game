@@ -9,9 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ComputationsSkills">
-        <activity
-            android:name=".HomeActivity"
-            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".HomeActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ScoreActivity"
             android:exported="false" />
