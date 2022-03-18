@@ -3,11 +3,11 @@
     <item>
         <shape tools:ignore="ExtraText">
             <gradient
-                android:startColor = "#FEAC5E"
-                android:centerColor = "#C779D0"
-                android:endColor="#4bc0cb"
-                android:angle="90"
-                android:type="linear"
+                android:startColor="#0d00a4"
+                android:endColor = "#02010a"
+                android:angle="270"
+                android:gradientRadius="285dp"
+                android:type="radial"
                 />
         </shape>
     </item>
