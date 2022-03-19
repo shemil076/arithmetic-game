@@ -12,6 +12,14 @@ import android.widget.TextView
 
 
 class ScoreActivity : AppCompatActivity() {
+
+
+    /**
+     *
+     * calls this method when the activity is first created
+     * initialise the elements
+     * @param savedInstanceState Bundle of saved instance state
+     */
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +59,10 @@ class ScoreActivity : AppCompatActivity() {
         showIncorrect.setTextColor(Color.RED)
     }
 
+    /**
+     * Redirected to the MainActivity/HomePage when the user presses back navigation button
+     * Stop reaching to the previous page when pressing the back navigation button
+     */
     override fun onBackPressed() {
         val backToMain = Intent(this, MainActivity::class.java)
         startActivity(backToMain)
