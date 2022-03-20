@@ -2,19 +2,15 @@ package com.example.computationsskills
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.SharedPreferences
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.util.Log
 import android.widget.*
 import java.util.*
 import kotlin.concurrent.schedule
 
 class GameActivity : AppCompatActivity() {
 
-    lateinit var preference: SharedPreferences
 
     //    initialise the global variable
     var operators = listOf("+", "-", "*", "/")                // list of operators in order to use randomly
@@ -27,19 +23,17 @@ class GameActivity : AppCompatActivity() {
     var valueOfExpression2: Int = 0                         // result after solving the second expression
     var expression1: String? = null                           // first expression
     var expression2: String? = null                           // second expression
-    var timerStartValue = 5000000000                        // number of ticks in order to have a continuous time period
-    var correctCount: Int = 0                              // number of expressions that correctly answered
-    var inCorrectCount: Int = 0                            // number of expressions that incorrectly answered
+    private var correctCount: Int = 0                              // number of expressions that correctly answered
+    private var inCorrectCount: Int = 0                            // number of expressions that incorrectly answered
     var timerCorrectCount: Int = 0                         // variable that use to count 5 correct answers
-    var seconds =   50000                                      // number of seconds that show in timer
-    var endTime : Long = 0
+    var seconds =   20000                                      // number of seconds that show in timer
 
 
 
     lateinit var showExpression1: TextView                 // TextView that shows the first expression
-    lateinit var showExpression2: TextView                 // TextView that shows the second expression
-    lateinit var showTimer : TextView
-    lateinit var timer: Timer
+    private lateinit var showExpression2: TextView                 // TextView that shows the second expression
+    lateinit var showTimer : TextView                      // TextView that shows the timer
+    lateinit var timer: Timer                               // timer object
 
     /**
      *
@@ -51,14 +45,14 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
-        // initialise the buttons and text fields
+        // initialise the views
         val btnGreater = findViewById<Button>(R.id.btnGreatrer)
         val btnEqual = findViewById<Button>(R.id.btnEqual)
         val btnLesser = findViewById<Button>(R.id.btnLess)
-        showExpression1 = findViewById<TextView>(R.id.txtExpression1)
-        showExpression2 = findViewById<TextView>(R.id.txtExpression2)
+        showExpression1 = findViewById(R.id.txtExpression1)
+        showExpression2 = findViewById(R.id.txtExpression2)
         val textResult = findViewById<TextView>(R.id.txtResult)
-        showTimer = findViewById<TextView>(R.id.timer)
+        showTimer = findViewById(R.id.timer)
 
 
 
@@ -67,20 +61,23 @@ class GameActivity : AppCompatActivity() {
         runTheGame(showExpression2, 2)       // calls to generate the second expression
         timer()
 
+        /**
+         * check the user input (button pressed) is correct.
+         * and recall the methods that generate the expression
+         */
         btnGreater.setOnClickListener {
-            check(checkOptions[0], textResult)
-
+            check(checkOptions[0], textResult)          // button represent left expression is greater than right
             runTheGame(showExpression1, 1)
             runTheGame(showExpression2, 2)
         }
 
-        btnEqual.setOnClickListener {
+        btnEqual.setOnClickListener {                   // button represent left expression is equal than right
             check(checkOptions[1], textResult)
             runTheGame(showExpression1, 1)
             runTheGame(showExpression2, 2)
         }
 
-        btnLesser.setOnClickListener {
+        btnLesser.setOnClickListener {                   // button represent left expression is less than right
             check(checkOptions[2], textResult)
             runTheGame(showExpression1, 1)
             runTheGame(showExpression2, 2)
@@ -96,7 +93,7 @@ class GameActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-
+        // set the values to a bundle
         outState.putInt("correct", correctCount)
         outState.putInt("incorrect", inCorrectCount)
         outState.putInt("timerCorrectCount", timerCorrectCount)
@@ -104,9 +101,9 @@ class GameActivity : AppCompatActivity() {
         outState.putInt("value1", valueOfExpression1)
         outState.putInt("value2", valueOfExpression2)
         outState.putString("expression1", expression1)
-
         outState.putString("expression2", expression2)
-        timer.cancel()
+        timer.cancel()      // stops the timer
+
 
 
     }
@@ -118,17 +115,18 @@ class GameActivity : AppCompatActivity() {
      */
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
+
+        // reassign the values to the respective varables
         correctCount = savedInstanceState.getInt("correct", 0)
         inCorrectCount = savedInstanceState.getInt("incorrect", 0)
         timerCorrectCount = savedInstanceState.getInt("timerCorrectCount", 0)
         seconds = savedInstanceState.getInt("seconds",50000)
-
-
         valueOfExpression1 = savedInstanceState.getInt("value1", 0)
         valueOfExpression2 = savedInstanceState.getInt("value2", 0)
         expression1 = savedInstanceState.getString("expression1", null)
         expression2 = savedInstanceState.getString("expression2", null)
 
+        // set the expression1 and expression2 in order to make sure to not to change when in rotation
         showExpression1.text = expression1
         showExpression2.text = expression2
     }
@@ -139,9 +137,9 @@ class GameActivity : AppCompatActivity() {
      * @param showExpression    TextView that shows the expression
      * @param expressionNumber  Expression number whether expression 1 or 2
      */
-    fun runTheGame(showExpression: TextView, expressionNumber: Int) {
+    private fun runTheGame(showExpression: TextView, expressionNumber: Int) {
         when (expressionNumber) {
-            1 -> {
+            1 -> { // generate the first expression
                 firstTerm1 = randomOneToTwenty().toString()
                 termCount1 = randomOneToThree()
                 generateExpression(
@@ -152,7 +150,7 @@ class GameActivity : AppCompatActivity() {
                     expressionNumber
                 )
             }
-            2 -> {
+            2 -> {  // generate the second expression
                 firstTerm2 = randomOneToTwenty().toString()
                 termCount2 = randomOneToThree()
                 generateExpression(
@@ -175,14 +173,14 @@ class GameActivity : AppCompatActivity() {
      * @param final      value of the expression after solving (but initially final value is equal to the first term )
      * @param expressionNumber
      */
-    fun generateExpression(
+    private fun generateExpression(
         firstTerm1: String,
         showExpression: TextView,
         termCount1: Int,
         final: Int,
         expressionNumber: Int
     ) {
-        var finalValue = final
+        var finalValue = final          // initially the final value is equal to the first term
         var termCount = termCount1
         val operator = randomUpToFour()
         var expressions: String? = null
@@ -191,8 +189,8 @@ class GameActivity : AppCompatActivity() {
         while (true) {
             secondTerm = randomOneToTwenty()
             when (operator) {
-                0 -> {
-                    if ((finalValue + secondTerm) <= 100) {
+                0 -> { // when the operator is "+"
+                    if ((finalValue + secondTerm) <= 100) { // to make sure the total is no more than 100
                         finalValue += secondTerm
                         break
                     } else {
@@ -200,8 +198,8 @@ class GameActivity : AppCompatActivity() {
                     }
 
                 }
-                1 -> {
-                    if ((finalValue - secondTerm) <= 100) {
+                1 -> { // when the operator is "-"
+                    if ((finalValue - secondTerm) <= 100) { // to make sure the summation is no more than 100
                         finalValue -= secondTerm
                         break
                     } else {
@@ -209,16 +207,16 @@ class GameActivity : AppCompatActivity() {
                     }
 
                 }
-                2 -> {
-                    if ((finalValue * secondTerm) <= 100) {
+                2 -> {      //  when the operator is "*"
+                    if ((finalValue * secondTerm) <= 100) {  // to make sure the multiplication is no more than 100
                         finalValue *= secondTerm
                         break
                     } else {
                         continue
                     }
                 }
-                3 -> {
-                    if ((finalValue % secondTerm == 0) && ((finalValue / secondTerm) <= 100)) {
+                3 -> {  // when the operator is "/"
+                    if ((finalValue % secondTerm == 0) && ((finalValue / secondTerm) <= 100)) {  // to make sure the result is a whole number and also to make sure the result is no more than 100
                         finalValue /= secondTerm
                         break
                     } else {
@@ -228,11 +226,11 @@ class GameActivity : AppCompatActivity() {
             }
         }
         when (expressionNumber) {
-            1 -> {
+            1 -> { // for first Expression
                 expression1 = firstTerm1 + operators[operator] + secondTerm
                 expressions = expression1
             }
-            2 -> {
+            2 -> { // for second expression
                 expression2 = firstTerm1 + operators[operator] + secondTerm
                 expressions = expression2
             }
@@ -241,6 +239,7 @@ class GameActivity : AppCompatActivity() {
 
         termCount -= 1
 
+        // set the other terms according to the number of terms
         if (termCount > 0) {
             generateExpression(
                 "($expressions)",
@@ -348,87 +347,51 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
-    private fun timerStart() {
-        val timer = findViewById<TextView>(R.id.timer)
-        object : CountDownTimer(timerStartValue.toLong(), 1000) {
-
-            @SuppressLint("SetTextI18n")
-            override fun onTick(millisUntilFinished: Long) {
-
-                if (timerCorrectCount == 2) { // reminder : change 2 to 5 -> 2 is used in debug purpose
-                    timerCorrectCount = 0
-                    seconds += 10
-                }
 
 
-                if (seconds > 30) {
-                    timer.setTextColor(Color.GREEN)
-                } else if (seconds > 10) {
-                    timer.setTextColor(Color.YELLOW)
-                    timer.textSize = 20F
-                } else {
-                    timer.setTextColor(Color.RED)
-                    timer.textSize = 21F
-                }
-
-                timer.text = "Seconds remaining\n0 : $seconds"
-                Log.d("timer ", seconds.toString())
-
-                if (seconds == 0) {
-                    onFinish()
-                    cancel()
-                }
-                seconds--
-            }
-
-
-
-            @SuppressLint("SetTextI18n")
-            override fun onFinish() {
-                timer.setTextColor(Color.YELLOW)
-                timer.text = "Game-Over!"
-                timer.textSize = 30F
-                showScore()
-
-
-            }
-        }.start()
-    }
-
-    fun timer(){
+    /**
+     * Timer that ticks on per second.
+     * Increase the timer by 10 seconds when  correctCount % 5 == 0
+     *
+     */
+    private fun timer(){
         timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
             @SuppressLint("SetTextI18n")
             override fun run() {
                 seconds -= 1000
 
-                runOnUiThread(Runnable() {
-                    if (timerCorrectCount == 2) { // reminder : change 2 to 5 -> 2 is used in debug purpose
+                runOnUiThread {
+                    if (timerCorrectCount == 5) { // reminder : change 2 to 5 -> 2 is used in debug purpose
                         timerCorrectCount = 0
                         seconds += 10000
                     }
 
-                    if(seconds <= 0){
+                    if (seconds <= 0) {
                         timer.cancel()
                         showScore()
                     }
 
-                    if (seconds > 30000) {
-                        showTimer.setTextColor(Color.GREEN)
-                    } else if (seconds > 20000) {
-                        showTimer.setTextColor(Color.YELLOW)
-                        showTimer.textSize = 20F
-                    } else {
-                        showTimer.setTextColor(Color.RED)
-                        showTimer.textSize = 21F
+                    when {
+                        seconds > 30000 -> {
+                            showTimer.setTextColor(Color.GREEN)
+                        }
+                        seconds > 20000 -> {
+                            showTimer.setTextColor(Color.YELLOW)
+                            showTimer.textSize = 20F
+                        }
+                        else -> {
+                            showTimer.setTextColor(Color.RED)
+                            showTimer.textSize = 21F
+                        }
                     }
 
 
-                    var min = (seconds /1000)/60
-                    var sec = (seconds /1000)%60
+                    val min = (seconds / 1000) / 60
+                    val sec = (seconds / 1000) % 60
                     showTimer.text = "Seconds remaining\n$min : $sec"
                     print("$min $sec\n")
-                })
+                }
             }
         },0,1000)
     }
@@ -439,7 +402,7 @@ class GameActivity : AppCompatActivity() {
      *
      */
     fun showScore() {
-        var scoreActivityIntent = Intent(this, ScoreActivity::class.java)
+        val scoreActivityIntent = Intent(this, ScoreActivity::class.java)
         scoreActivityIntent.putExtra("correct", correctCount)
         scoreActivityIntent.putExtra("incorrect", inCorrectCount)
         Toast.makeText(this, "Moving on...", Toast.LENGTH_SHORT).show()
@@ -453,7 +416,7 @@ class GameActivity : AppCompatActivity() {
      *
      * @return generated number
      */
-    fun randomUpToFour(): Int {
+    private fun randomUpToFour(): Int {
         return Random().nextInt(4)
     }
 
@@ -462,7 +425,7 @@ class GameActivity : AppCompatActivity() {
      *
      * @return generated number
      */
-    fun randomOneToThree(): Int {
+    private fun randomOneToThree(): Int {
         return 1 + Random().nextInt(3)
     }
 
@@ -471,7 +434,7 @@ class GameActivity : AppCompatActivity() {
      *
      * @return generated number
      */
-    fun randomOneToTwenty(): Int {
+    private fun randomOneToTwenty(): Int {
         return 1 + Random().nextInt(20)
     }
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background= "@drawable/gredient_ackground2">
+    android:background= "@drawable/gredient_ackground7">
 
     <LinearLayout
         android:id="@+id/linearLayout"
