@@ -440,4 +440,13 @@ class GameActivity : AppCompatActivity() {
         return 1 + Random().nextInt(20)
     }
 
+    /**
+     * cancel the timer when the user press the back button and navigate to the home page (main activity)
+     *
+     */
+    override fun onBackPressed() {
+        val backToMain = Intent(this, MainActivity::class.java)
+        startActivity(backToMain)
+        timer.cancel()
+    }
 }
