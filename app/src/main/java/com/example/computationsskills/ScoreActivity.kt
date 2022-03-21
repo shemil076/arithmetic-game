@@ -25,6 +25,7 @@ class ScoreActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_score)
 
+//        initialise the views
         val showCorrect = findViewById<TextView>(R.id.correct)
         val showIncorrect = findViewById<TextView>(R.id.incorrect)
 
@@ -34,21 +35,24 @@ class ScoreActivity : AppCompatActivity() {
         val image4 = findViewById<ImageView>(R.id.imageView4)
         val image5 = findViewById<ImageView>(R.id.imageView5)
 
+//        initialise the anim
         val leftToRight = AnimationUtils.loadAnimation(this, R.anim.lefttoright)
-        val updown = AnimationUtils.loadAnimation(this, R.anim.updown)
+        val upDown = AnimationUtils.loadAnimation(this, R.anim.updown)
         val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
-        val shakemore = AnimationUtils.loadAnimation(this, R.anim.shakemore)
-        val starrotate = AnimationUtils.loadAnimation(this, R.anim.starrotate)
+        val shakeMore = AnimationUtils.loadAnimation(this, R.anim.shakemore)
+        val starRotate = AnimationUtils.loadAnimation(this, R.anim.starrotate)
 
+//        add anims to the views
         image1.startAnimation(shake)
-        image2.startAnimation(shakemore)
+        image2.startAnimation(shakeMore)
         image3.startAnimation(leftToRight)
-        image4.startAnimation(starrotate)
-        image5.startAnimation(updown)
+        image4.startAnimation(starRotate)
+        image5.startAnimation(upDown)
 
 
-        var correctCount = intent.getIntExtra("correct",0)
-        var incorrectCount = intent.getIntExtra("incorrect",0)
+//       assign the values from the intent to the respective variables
+        val correctCount = intent.getIntExtra("correct",0)
+        val incorrectCount = intent.getIntExtra("incorrect",0)
 
 
 

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // initialise ui elements
+        // initialise the views
         val btnNewGame = findViewById<Button>(R.id.newGame)
         val btnAbout = findViewById<Button>(R.id.about)
 
@@ -33,23 +33,31 @@ class MainActivity : AppCompatActivity() {
         val image3 = findViewById<ImageView>(R.id.imageView3)
         val image4 = findViewById<ImageView>(R.id.imageView4)
         val image5 = findViewById<ImageView>(R.id.imageView5)
-        val buttonlayer = findViewById<LinearLayout>(R.id.linearLayout)
+        val buttonLayer = findViewById<LinearLayout>(R.id.linearLayout)
 
 
         // initialise the anims
         val leftToRight = AnimationUtils.loadAnimation(this, R.anim.lefttoright)
-        val righttoleft = AnimationUtils.loadAnimation(this, R.anim.righttoleft)
+        val rightToLeft = AnimationUtils.loadAnimation(this, R.anim.righttoleft)
         val shake = AnimationUtils.loadAnimation(this, R.anim.shake)
-        val topbottum = AnimationUtils.loadAnimation(this, R.anim.topbottum)
+        val topBottom = AnimationUtils.loadAnimation(this, R.anim.topbottum)
 
-        // add animations on ui elements
-        buttonlayer.startAnimation(shake)
+        // add animations on views
+        buttonLayer.startAnimation(shake)
 
-        image1.startAnimation(righttoleft)
+        image1.startAnimation(rightToLeft)
         image2.startAnimation(leftToRight)
-        image3.startAnimation(righttoleft)
+        image3.startAnimation(rightToLeft)
         image4.startAnimation(leftToRight)
-        image5.startAnimation(topbottum)
+        image5.startAnimation(topBottom)
+
+
+        /**\
+         * remove the action bar (app bar)              reference: https://www.geeksforgeeks.org/different-ways-to-hide-action-bar-in-android-with-examples/
+         */
+        if (supportActionBar != null) {
+            supportActionBar?.hide()
+        }
 
         /**
          * navigate to the GameActivity

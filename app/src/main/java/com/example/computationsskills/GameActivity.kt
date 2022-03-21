@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import java.util.*
 import kotlin.concurrent.schedule
@@ -26,7 +27,7 @@ class GameActivity : AppCompatActivity() {
     private var correctCount: Int = 0                              // number of expressions that correctly answered
     private var inCorrectCount: Int = 0                            // number of expressions that incorrectly answered
     var timerCorrectCount: Int = 0                         // variable that use to count 5 correct answers
-    var seconds =   20000                                      // number of seconds that show in timer
+    var seconds =   50000                                      // number of seconds that show in timer
 
 
 
@@ -240,6 +241,7 @@ class GameActivity : AppCompatActivity() {
         termCount -= 1
 
         // set the other terms according to the number of terms
+
         if (termCount > 0) {
             generateExpression(
                 "($expressions)",
@@ -251,10 +253,10 @@ class GameActivity : AppCompatActivity() {
 
         } else {
             when (expressionNumber) {
-                1 -> {
+                1 -> { // final value after solving the first expression
                     valueOfExpression1 = finalValue
                 }
-                2 -> {
+                2 -> { // final value after solving the second expression
                     valueOfExpression2 = finalValue
                 }
             }
@@ -276,7 +278,7 @@ class GameActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun check(checkOption: String, txtResult: TextView) {
         when (checkOption) {
-            "greater" -> {
+            "greater" -> { // if the user press the greater button
                 if (valueOfExpression1 > valueOfExpression2) {
                     txtResult.text = "CORRECT!"
                     correctCount += 1
@@ -292,6 +294,7 @@ class GameActivity : AppCompatActivity() {
                     inCorrectCount += 1
                     txtResult.setTextColor(Color.RED)
 
+                    // reset the txtResult TextView
                     Timer().schedule(500) {
                         txtResult.text = ""
                     }
@@ -299,7 +302,7 @@ class GameActivity : AppCompatActivity() {
 
                 }
             }
-            "equal" -> {
+            "equal" -> { // if the user press the equal button
                 if (valueOfExpression1 == valueOfExpression2) {
                     txtResult.text = "CORRECT!"
                     correctCount += 1
@@ -321,7 +324,7 @@ class GameActivity : AppCompatActivity() {
                     }
                 }
             }
-            "less" -> {
+            "less" -> { // if the user press the less button
                 if (valueOfExpression1 < valueOfExpression2) {
                     txtResult.text = "CORRECT!"
                     correctCount += 1
@@ -359,19 +362,20 @@ class GameActivity : AppCompatActivity() {
         timer.scheduleAtFixedRate(object : TimerTask() {
             @SuppressLint("SetTextI18n")
             override fun run() {
-                seconds -= 1000
+                seconds -= 1000     // decrement the number of seconds
 
                 runOnUiThread {
-                    if (timerCorrectCount == 5) { // reminder : change 2 to 5 -> 2 is used in debug purpose
+                    if (timerCorrectCount == 5) {  // Add 10 second if the correctcount is a multiple of 5 (correctCount % 5 == 0)
                         timerCorrectCount = 0
                         seconds += 10000
                     }
 
-                    if (seconds <= 0) {
+                    if (seconds <= 0) {         // stop the timer and call the final activity.
                         timer.cancel()
                         showScore()
                     }
 
+                    // change the text colour according to the remaining seconds
                     when {
                         seconds > 30000 -> {
                             showTimer.setTextColor(Color.GREEN)
@@ -386,11 +390,11 @@ class GameActivity : AppCompatActivity() {
                         }
                     }
 
-
+                    // calculate the number of minutes and the number of seconds from remaining seconds
                     val min = (seconds / 1000) / 60
                     val sec = (seconds / 1000) % 60
                     showTimer.text = "Seconds remaining\n$min : $sec"
-                    print("$min $sec\n")
+                    Log.d("timer" , "$min : $sec")
                 }
             }
         },0,1000)
@@ -401,14 +405,12 @@ class GameActivity : AppCompatActivity() {
      * moves to the score activity
      *
      */
-    fun showScore() {
+    fun showScore() { // pass the result to the final activity using an explicit intent
         val scoreActivityIntent = Intent(this, ScoreActivity::class.java)
         scoreActivityIntent.putExtra("correct", correctCount)
         scoreActivityIntent.putExtra("incorrect", inCorrectCount)
         Toast.makeText(this, "Moving on...", Toast.LENGTH_SHORT).show()
         startActivity(scoreActivityIntent)
-
-
     }
 
     /**

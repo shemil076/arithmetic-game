@@ -27,6 +27,7 @@
     <string name="scoreboard">Scoreboard</string>
     <string name="lblScore">Scoreboard</string>
     <string name="correct">Correct</string>>
-    <string name="incorrect">Incorrect</string>>
+    <string name="incorrect">Incorrect</string>
+    <string name="appNAme">Check your Math</string>>
 
 </resources>
